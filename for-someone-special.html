@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>For someone I call (person)</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+font-family:Poppins;
+background:linear-gradient(135deg,#ffc0cb,#ffd9ec);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow-x:hidden;
+}
+
+.container{
+width:90%;
+max-width:420px;
+background:white;
+padding:25px;
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+text-align:center;
+}
+
+h1{
+font-family:"Great Vibes";
+color:#ff4d6d;
+font-size:36px;
+}
+
+button{
+padding:10px 15px;
+margin:6px;
+border:none;
+border-radius:8px;
+background:#ff4d6d;
+color:white;
+cursor:pointer;
+transition:.2s;
+}
+
+button:hover{
+transform:scale(1.05);
+}
+
+input{
+padding:10px;
+width:100%;
+border-radius:8px;
+border:1px solid #ccc;
+margin-top:10px;
+}
+
+.section{
+display:none;
+}
+
+.active{
+display:block;
+}
+
+ul{
+padding:0;
+}
+
+li{
+list-style:none;
+background:#ffe5ef;
+padding:10px;
+margin:8px 0;
+border-radius:8px;
+}
+
+/* floating hearts */
+
+.heart{
+position:fixed;
+bottom:-10px;
+color:#ff4d6d;
+font-size:20px;
+animation:float 7s linear infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(0);}
+100%{transform:translateY(-120vh);}
+}
+
+/* heart explosion */
+
+.pop{
+position:absolute;
+font-size:20px;
+color:#ff4d6d;
+animation:pop 1s forwards;
+}
+
+@keyframes pop{
+0%{transform:scale(1);opacity:1;}
+100%{transform:translateY(-80px) scale(2);opacity:0;}
+}
+
+/* open when boxes */
+
+.openBox{
+background:#ffe5ef;
+padding:15px;
+border-radius:10px;
+margin-top:10px;
+display:none;
+}
+
+/* typewriter */
+
+#type{
+white-space:pre-line;
+line-height:1.6;
+}
+
+</style>
+</head>
+
+<body onclick="explode(event)">
+
+<div class="container">
+
+<!-- LOGIN -->
+
+<div id="login">
+
+<h1>For someone I call (Person)</h1>
+
+<p>Enter the secret date</p>
+<p><b>Hint:</b> My Birthday</p>
+
+<input type="date" id="date">
+
+<button onclick="unlock()">Unlock ❤️</button>
+
+</div>
+
+<!-- APP HOME -->
+
+<div id="app" class="section">
+
+<h1>Welcome (person) ❤️</h1>
+
+<button onclick="show('letter')">Love Letter</button>
+<button onclick="show('songs')">Our Songs</button>
+<button onclick="show('open')">Open When</button>
+<button onclick="show('notes')">Reminders</button>
+<button onclick="show('secret')">Secret</button>
+
+</div>
+
+<!-- LETTER -->
+
+<div id="letter" class="section">
+
+<h2>Love Letter</h2>
+
+<p id="type"></p>
+
+<button onclick="home()">Back</button>
+
+</div>
+
+<!-- SONGS -->
+
+<div id="songs" class="section">
+
+<h2>Our Songs</h2>
+
+<p>Until I Found You</p>
+<audio controls src="Until I Found You.mp3"></audio>
+
+<p>Perfect – Ed Sheeran</p>
+<audio controls src="Perfect.mp3"></audio>
+
+<button onclick="home()">Back</button>
+
+</div>
+
+<!-- OPEN WHEN -->
+
+<div id="open" class="section">
+
+<h2>Open When...</h2>
+
+<button onclick="toggle('sad')">You're Sad</button>
+<div id="sad" class="openBox">
+If you're reading this while feeling sad, I wish I could hug you right now.
+Remember you're never alone. I'm always here for you.
+</div>
+
+<button onclick="toggle('miss')">You Miss Me</button>
+<div id="miss" class="openBox">
+If you miss me, just remember I probably miss you even more.
+</div>
+
+<button onclick="toggle('sleep')">You Can't Sleep</button>
+<div id="sleep" class="openBox">
+Close your eyes and imagine me wishing you goodnight.
+</div>
+
+<button onclick="toggle('smile')">You Need a Smile</button>
+<div id="smile" class="openBox">
+There's someone in this world who smiles every time he thinks about you.
+</div>
+
+<button onclick="home()">Back</button>
+
+</div>
+
+<!-- NOTES -->
+
+<div id="notes" class="section">
+
+<h2>Reminders</h2>
+
+<ul>
+<li>Never cry ❤️</li>
+<li>Always remember me</li>
+<li>Whenever you feel low just text me</li>
+<li>Remember… I love you</li>
+</ul>
+
+<button onclick="home()">Back</button>
+
+</div>
+
+<!-- SECRET -->
+
+<div id="secret" class="section">
+
+<h2>Final Message</h2>
+
+<p>
+If you reached this part, it means you explored everything I made for you.
+That alone makes me really happy.
+</p>
+
+<p>
+Just remember one thing… you mean a lot to me.
+</p>
+
+<p><b>— Ans</b></p>
+
+<button onclick="home()">Back</button>
+
+</div>
+
+</div>
+
+<script>
+
+/* password */
+
+function unlock(){
+
+let date=document.getElementById("date").value
+
+if(date==="2006-01-05"){
+document.getElementById("login").style.display="none"
+document.getElementById("app").classList.add("active")
+typeLetter()
+}
+else{
+alert("Wrong date ❤️")
+}
+
+}
+
+/* navigation */
+
+function show(id){
+
+document.querySelectorAll(".section").forEach(s=>{
+s.classList.remove("active")
+})
+
+document.getElementById(id).classList.add("active")
+
+}
+
+function home(){
+show("app")
+}
+
+/* open when */
+
+function toggle(id){
+
+let el=document.getElementById(id)
+
+el.style.display = el.style.display==="block" ? "none":"block"
+
+}
+
+/* floating hearts */
+
+setInterval(()=>{
+
+let heart=document.createElement("div")
+heart.className="heart"
+heart.innerHTML="❤"
+
+heart.style.left=Math.random()*100+"vw"
+
+document.body.appendChild(heart)
+
+setTimeout(()=>heart.remove(),7000)
+
+},600)
+
+/* heart explosion */
+
+function explode(e){
+
+for(let i=0;i<6;i++){
+
+let heart=document.createElement("div")
+heart.className="pop"
+heart.innerHTML="❤"
+
+heart.style.left=e.clientX+"px"
+heart.style.top=e.clientY+"px"
+
+document.body.appendChild(heart)
+
+setTimeout(()=>heart.remove(),1000)
+
+}
+
+}
+
+/* typewriter letter */
+
+let text=`I wanted to write this earlier, but I'm sorry it took me so long.
+You chose me as I am and never cared about who I was before. Thank you.
+
+I wasn't a good guy until I met you. You made me realize that there is so much more in life… like having true feelings for someone.
+
+That is what made me fall for you.
+
+Although I know nothing can truly show how much I love you, this is just a small effort so you can understand what you mean to me.
+
+I love you, (person)!
+
+— Ans`
+
+let i=0
+
+function typeLetter(){
+
+let speed=35
+
+function typing(){
+
+if(i<text.length){
+document.getElementById("type").innerHTML += text.charAt(i)
+i++
+setTimeout(typing,speed)
+}
+
+}
+
+typing()
+
+}
+
+</script>
+
+</body>
+</html>
